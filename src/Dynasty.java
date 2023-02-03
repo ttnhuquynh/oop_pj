@@ -6,6 +6,16 @@ public class Dynasty {
 
     private String description;
 
+    private String countryName;
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -15,33 +25,43 @@ public class Dynasty {
     }
 
     static int currentId = 0;
+    private int related;
 
-
-    public Dynasty(String name){
-        this.name = name;
-        this.id = ++currentId;
-        this.yearEnd = "Không rõ";
-        this.yearStart = "Không rõ";
-
+    public int getRelated() {
+        return related;
     }
+
+    public void setRelated(int related) {
+        this.related = related;
+    }
+    //    public Dynasty(String name){
+//        this.name = name;
+//        this.id = ++currentId;
+//        this.yearEnd = "Không rõ";
+//        this.yearStart = "Không rõ";
+//        this.countryName = "Không rõ";
+//
+//    }
 
 
 
     public Dynasty(String name, String yearStart, String yearEnd ){
         this.id = ++ currentId;
         this.name = name;
-
         this.yearStart = yearStart == null ? "Không rõ" : yearStart;
         this.yearEnd = yearEnd == null ? "Không rõ" : yearEnd;
+        this.countryName = "Không rõ";
+        this.related = 0;
     }
 
-    public Dynasty(String name, String yearStart, String yearEnd, String description){
+    public Dynasty(String name, String yearStart, String yearEnd, String description, int related){
         this.id = ++ currentId;
         this.name = name;
-
         this.yearStart = yearStart == null ? "Không rõ" : yearStart;
         this.yearEnd = yearEnd == null ? "Không rõ" : yearEnd;
         this.description = description == null ? "Không có" : description;
+        this.countryName = "Không rõ";
+        this.related = related;
     }
 
     public Dynasty(String name, String yearStart ){
@@ -49,6 +69,17 @@ public class Dynasty {
         this.name = name;
         this.yearStart = yearStart;
         this.yearEnd = "Không rõ";
+        this.countryName = "Không rõ";
+        this.related = 0;
+    }
+
+    public Dynasty(String countryName ){
+        this.id = ++ currentId;
+        this.name = "Không rõ";
+        this.yearStart = "Không rõ";
+        this.yearEnd = "Không rõ";
+        this.countryName = countryName;
+        this.related = 0;
     }
     public long getId() {
 //        System.out.println(id);

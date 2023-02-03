@@ -73,111 +73,33 @@ public class WebCrawler3 extends WebCrawler {
 
 
 
-                    if(!inf.contains("(") ){
-                        if(!f.parent().parent().is("ul"))
+                    if(!inf.contains("(") ) {
+                        if (!f.parent().parent().is("ul")){
                             if (f.parent().parent().nextElementSibling() != null) {
                                 int lis = f.parent().parent().nextElementSibling().getElementsByTag("li").size();
                                 if (lis == 0) {
                                     lis = f.parent().parent().nextElementSibling().nextElementSibling().getElementsByTag("li").size();
                                 }
+//                                System.out.println(lis);
                                 String ulf = infs.get(j + lis).text();
                                 String ull = infs.get(j + 1).text();
                                 String[] s = getYearsAndName(ulf);
                                 String[] sm = getYearsAndName(ull);
+                                Dynasty newDy = new Dynasty(information[0], sm[1], s[2], des, lis);
+//                                System.out.println(newDy.getId() + " " + newDy.getName() +" " + newDy.getRelated());
+                                Crawler.Dynasties.add(newDy);
 
-                                Crawler.Dynasties.add(new Dynasty(information[0], sm[1], s[2], des));
+                            } else {
+                                Crawler.Dynasties.add(new Dynasty(information[0], information[1], information[2], des, 0));
                             }
-                        else {
-                                Crawler.Dynasties.add(new Dynasty(information[0], information[1], information[2], des));
-                            }
-
+                    }
                     }
 
                     else {
-                        Crawler.Dynasties.add(new Dynasty(information[0], information[1], information[2], des));
+                        Crawler.Dynasties.add(new Dynasty(information[0], information[1], information[2], des, 0));
                     }
 
                 }
-                        JSONObject jo = new JSONObject();
-            JSONArray x = new JSONArray();
-            for(int i = 0; i < Crawler.Dynasties.size(); i++){
-                Map m = new LinkedHashMap(4); // Dynasties
-                m.put("id", Crawler.Dynasties.get(i).getId());
-                m.put("name", Crawler.Dynasties.get(i).getName());
-                m.put("yearStart", Crawler.Dynasties.get(i).getYearStart());
-                m.put("yearEnd", Crawler.Dynasties.get(i).getYearEnd());
-                m.put("description", Crawler.Dynasties.get(i).getDescription());
-                x.add(m);
-            }
-            jo.put("dynasties", x);
-
-            PrintWriter pw = new PrintWriter("JSONExample.json");
-            String prettyJson = jo.toString();
-            pw.write(jo.toJSONString());
-
-            pw.flush();
-            pw.close();
-
-
-
-
-
-
-
-
-
-
-//
-//                if (e.child(i).attr("font-weight: 700"))
-//                if (e.child(i).getElementsByTag("li").size() > 0){
-//                    Elements  es = e.child(i).getElementsByTag("li");
-//                    for (Element esm : es){
-//                        if (esm.attr("font-weight: 700") != null && esm.text().split(":")[0].length() < 54){
-//                                inf = esm.text().split(":")[0];
-//                        }
-//                    }
-//                }
-//
-//                else {
-//                    if (e.child(i).attr("font-weight: 700") != null && e.child(i).text().split(":")[0].length() < 54) {
-//                        if (!e.child(i).text().contains("\\)") ) {
-//                            inf = e.child(i).text().split(":")[0];
-//                        }
-//                    }
-//                }
-//                System.out.println(inf);
-
-
-//                if (inf.contains("\\(")){
-//                    String[] infs = inf.split(" \\(");
-//                String name = infs[0];
-//                String year = infs[1];
-//                String[] years = infs[1].split(" – ");
-//                String yearStart = years[0];
-//                String yearEnd = years[1].split("\\)")[0];
-//
-//                Dynasty newDynasty = new Dynasty(name, yearStart, yearEnd);
-//                Crawler.Dynasties.add(newDynasty);
-//                }
-//                else {
-//                    Crawler.Dynasties.add(new Dynasty(inf));
-//                }
-//
-
-
-
-
-
-
-
-
-//            for (Element e: elements){
-//                System.out.println(e.text());
-//            }
-
-
-
-
 
 
         } catch (IOException e) {

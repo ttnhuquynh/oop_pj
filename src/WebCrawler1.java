@@ -1,96 +1,67 @@
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+//import org.json.JSONArray;
+import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
-public class WebCrawler1 extends WebCrawler{
+public class WebCrawler1 {
+    public static void main(String[] args) throws IOException, ParseException {
+        int i = 0;
 
-    public WebCrawler1(String url) {
-        super();
-        this.url = url;
-        Crawler();
-    }
+        Document doc = Jsoup.connect("https://vi.wikipedia.org/wiki/Vua_Vi%E1%BB%87t_Nam").get();
 
-    void Crawler(){
-        try {
-            Document doc = Jsoup.connect(url).get();
-            Elements elements = doc.getElementsByClass("table toccolours").select("tr td");
-
-            for (int i = 2; i < elements.size(); i++){
-                Element e = elements.get(i);
-                Elements names = e.select("b a[href]");
-                Elements year = e.select("font");
-
-                if (names.size() != 0 && year.size() != 0 ) {
-                      String name = names.get(0).ownText();
-                      String[] years =  year.get(0).text().split(" – ");
-                      years[0] = years[0].substring(1);
-                      if(years.length >= 2) {
-                          String y = years[1].split(" ")[0];
-                              years[1] = y.substring(0, y.length() - 1 );
-                          String yearStart = years[0];
-                          String yearEnd = years[1];
-                          Dynasty newDynasty = new Dynasty(name, yearStart, yearEnd);
-                          Crawler.Dynasties.add(newDynasty);
-                      } else {
-                          years[0] = years[0].substring(0, years[0].length()-2);
-                          String yearStart = years[0];
-                          Dynasty newDynasty = new Dynasty(name, yearStart);
-                          Crawler.Dynasties.add(newDynasty);
-                      }
-                }
-                else if (names.size() != 0){
-                    String name = names.get(0).ownText();
-                    Dynasty newDynasty = new Dynasty(name);
-                    Crawler.Dynasties.add(newDynasty);
+        Elements table = doc.getElementsByTag("table");
+        for(Element a : table) {
+            Elements infs = a.getElementsByAttributeValue("cellpadding","0");
+            for(int i1 = 2; i1 < infs.size(); i1++) {
+                Element d = infs.get(i1);
+                if(d.text() != null) {
+                    System.out.println(d.text());
                 }
             }
-
-
-//            JSONObject jo = new JSONObject();
-//            JSONArray x = new JSONArray();
-//            for(int i = 0; i < Crawler.Dynasties.size(); i++){
-//                Map m = new LinkedHashMap(4); // Dynasties
-//                m.put("id", Crawler.Dynasties.get(i).getId());
-//                m.put("name", Crawler.Dynasties.get(i).getName());
-//                m.put("yearStart", Crawler.Dynasties.get(i).getYearStart());
-//                m.put("yearEnd", Crawler.Dynasties.get(i).getYearEnd());
-//                x.add(m);
-//            }
-//            jo.put("dynasties", x);
-//
-//            PrintWriter pw = new PrintWriter("JSONExample.json");
-//            String prettyJson = jo.toString();
-//            pw.write(jo.toJSONString());
-//
-//            pw.flush();
-//            pw.close();
-
-
-
-
-//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//            //System.out.println(gson.toJson (LocateArray));
-//            try (FileWriter file = new FileWriter("LocateList.json")){
-//                file.write(gson.toJson (Dynasties).toString());
-//                file.flush();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
+
+//        for(Element row : table) {
+//           if (i != 0) {
+//                JSONObject king = new JSONObject();
+//                Element d = table.get(i);
+//                king.put("Vua", d.select("td").get(1).text());
+//                king.put("Tên húy", d.select("td").get(5).text());
+//                king.put("Thế thứ", d.select("td").get(6).text());
+//                king.put("Trị vì", d.select("td").get(7).text());
+//
+//                	KingArray.put(king);
+//                	i++;
+//
+//            } else {
+//                i++;
+//                continue;
+//            }
+//        }
+//        for(int m=0; m<KingArray.length(); m++){
+//            JSONObject obj = KingArray.getJSONObject(m);
+//            String name = obj.getString("Vua");
+//            King item = new King();
+//            item.setTitle(name);
+//			b.add(item);
+//        }
+//        for(int l = 0; l < b.size(); l++) {
+//			System.out.println(b.get(l).getTitle());
+//		}
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        //System.out.println(gson.toJson (LocateArray));
+//        try (FileWriter file = new FileWriter("KingList.json")){
+//            file.write(gson.toJson (KingArray).toString());
+//            file.flush();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("File has been created");
+//
     }
-
-
-
 }
